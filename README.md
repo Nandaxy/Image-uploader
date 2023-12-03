@@ -29,4 +29,4 @@ Projets ini web adalah server sederhana yang memungkinkan pengguna mengunggah ga
 
 ## Demo
 
-- https://my-server.nanda79.repl.co/
+- https://image-uploader.nanda79.repl.co/
