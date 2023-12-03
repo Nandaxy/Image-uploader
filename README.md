@@ -1,6 +1,6 @@
 # Image Uploader Node.js
 
-Projets ini web adalah server sederhana yang memungkinkan pengguna mengunggah gambar ke server menggunakan Node.js dan Express.
+Projets ini adalah web server sederhana yang memungkinkan pengguna mengunggah gambar ke server menggunakan Node.js dan Express.
 
 ## Installation
 
