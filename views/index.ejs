@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/src/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="/src/apple-touch-icon.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="/src/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="/src/site.webmanifest" />
+    <meta charset="UTF-8" />
+    <meta name="title" content="Image Uploader" />
+    <meta
+      name="description"
+      content="A website entitled image uploader which will upload a jpg, jpeg or png image to the server, then you will get the link below."
+    />
+    <meta
+      name="keywords"
+      content="tmp file,image upload, telegraph, image upload link"
+    />
+    <meta name="robots" content="index, follow" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="language" content="English" />
+    <meta name="revisit-after" content="1 days" />
+    <meta name="author" content="Nanda" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Uploader</title>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+      * {
+        padding: 0;
+        margin: 0;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+      }
+
+      .navbar {
+        background-color: white;
+        height: 40px;
+        width: 100%;
+        position: fixed;
+        padding: 10px 0px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 2px 2px 0px #edf2ef;
+      }
+
+      .brand img {
+        padding: 0px 10px;
+        width: 40px;
+        height: auto;
+      }
+
+      .nav-mobile {
+        padding: 0px 10px;
+      }
+
+      .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 1000;
+      }
+
+      .offcanvas-menu {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #161616;
+        z-index: 1001;
+        overflow: hidden;
+        text-align: center;
+      }
+
+      .menu-items {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+      }
+
+      .offcanvas-menu a {
+        display: block;
+        padding: 10px;
+        color: white;
+        text-decoration: none;
+        font-size: 28px;
+        margin: 10px;
+        border-radius: 10px;
+        opacity: 70%;
+      }
+
+      .offcanvas-menu a:hover {
+        background-color: #212121;
+        opacity: 100%;
+      }
+
+      .close-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        font-size: 3em;
+        text-decoration: none;
+        cursor: pointer;
+        color: white;
+      }
+
+      .about-dropdown {
+        display: hidden;
+        width: 40%;
+      }
+
+      .about-dropdown p {
+        color: white;
+        opacity: 90%;
+        text-align: justify;
+      }
+
+      .about-btn.active {
+        border-bottom: 2px solid #fff;
+        opacity: 100%;
+      }
+
+      .menu {
+        padding-right: 10px;
+        margin: auto;
+      }
+
+      .content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        overflow-x: hidden;
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 350px;
+      }
+
+      h1 {
+        text-align: center;
+        color: #333;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      input[type="file"] {
+        display: none;
+      }
+
+      .label-file {
+        margin-bottom: 15px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        width: 100%;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+      }
+
+      .label-mode {
+        margin-bottom: 20px;
+        margin-top: 10px;
+        cursor: pointer;
+      }
+
+      label span {
+        flex-grow: 1;
+        margin-right: 10px;
+      }
+
+      button {
+        padding: 10px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%;
+        box-sizing: border-box;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      .toast {
+        visibility: hidden;
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #333;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+        border-radius: 4px;
+        opacity: 0;
+        transition: opacity 0.3s;
+        z-index: 1000;
+      }
+
+      .show-toast {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .progress-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding-top: 10px;
+      }
+
+      .percent-container {
+        margin-top: 10px;
+      }
+
+      .percent-text {
+        display: inline-block;
+        margin-left: 10px;
+      }
+
+      @media only screen and (max-width: 768px) {
+        .about-dropdown {
+          width: 70%;
+        }
+      }
+    </style>
+  </head>
+
+  <body onload="displayFileName(); validateFile()">
+    <div class="overlay"></div>
+    <div class="offcanvas-menu">
+      <a href="#" class="close-btn">X</a>
+      <div class="menu-items">
+        <a href="/">Home</a>
+        <a href="/dashboard">Dashboard</a>
+        <a href="#" class="about-btn">About</a>
+        <div class="about-dropdown" style="display: none">
+          <p>
+            Welcome to Image Upload Site! We provide easy and fast image upload
+            services. You can upload your favorite images and get direct links
+            to them. Use our features to share images with friends or embed them
+            on your website.
+          </p>
+          <p>
+            it's very simple: click the "Upload" button, select the image you
+            want to share, and get a direct link to use anywhere. Thank you for
+            choosing our service!
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="navbar">
+      <div class="brand">
+        <a href="/"><img src="/src/brand.png" alt="brand" /></a>
+      </div>
+
+      <div class="nav-mobile">
+        <a href="#" class="menu">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="32"
+            width="32"
+            viewBox="0 0 448 512"
+          >
+            <path
+              d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"
+            />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="container">
+        <h1>Image Upload</h1>
+        <form action="/upload" method="post" enctype="multipart/form-data">
+          <span>Select Mode</span>
+          <select name="mode" required class="label-mode">
+            <option value="public">Public</option>
+            <option value="private">Private</option>
+          </select>
+
+          <label class="label-file">
+            <span>Select File</span>
+            <input
+              type="file"
+              name="file"
+              accept=".jpg, .jpeg, .png"
+              required
+            />
+          </label>
+          <button type="submit">Upload File</button>
+        </form>
+      </div>
+      <div id="toast" class="toast"></div>
+    </div>
+    <script>
+      $(document).ready(function () {
+        $(".menu").click(function () {
+          $(".overlay, .offcanvas-menu").fadeIn();
+          $(".about-btn").removeClass("active");
+          $(".about-dropdown").fadeOut();
+        });
+
+        $(".close-btn, .overlay").click(function () {
+          $(".overlay, .offcanvas-menu, .about-dropdown").fadeOut();
+          $(".about-btn").removeClass("active");
+        });
+
+        $(".about-btn").click(function () {
+          $(".about-dropdown").slideToggle();
+          $(this).toggleClass("active");
+        });
+      });
+
+      $(document).ready(function () {
+        $("form").submit(function (e) {
+          e.preventDefault();
+
+          $("button[type='submit']").prop("disabled", true);
+
+          const formData = new FormData(this);
+          const progressBar = $("<progress value='0' max='100'></progress>");
+          const progressContainer = $(
+            "<div class='progress-container'></div>"
+          ).append(progressBar);
+          const percentContainer = $("<div class='percent-container'></div>");
+          const percentText = $("<div class='percent-text'>0%</div>");
+
+          progressContainer.append(progressBar, percentContainer);
+          percentContainer.append(percentText);
+
+          $(".container").append(progressContainer);
+
+          $.ajax({
+            url: "/upload",
+            type: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            xhr: function () {
+              const xhr = new window.XMLHttpRequest();
+              xhr.upload.addEventListener("progress", function (event) {
+                if (event.lengthComputable) {
+                  const percentComplete = Math.round(
+                    (event.loaded / event.total) * 100
+                  );
+                  progressBar.val(percentComplete);
+
+                  if (percentComplete === 100) {
+                    percentText.text("Redirecting...");
+                  } else {
+                    percentText.text(percentComplete + "%");
+                  }
+                }
+              });
+
+              return xhr;
+            },
+            success: function (response) {
+              console.log(response);
+
+              if (response.success) {
+                window.location.href = response.redirectUrl;
+              } else {
+                console.error("Upload failed");
+              }
+            },
+            error: function (error) {
+              console.error(error);
+            },
+            complete: function () {
+              $("button[type='submit']").prop("disabled", false);
+
+              progressContainer.remove();
+            },
+          });
+        });
+      });
+
+      function displayFileName() {
+        const input = document.querySelector('input[type="file"]');
+        const label = document.querySelector("label span");
+
+        input.addEventListener("change", function () {
+          label.textContent = input.files[0].name;
+        });
+      }
+
+      function showToast(message) {
+        const toast = document.getElementById("toast");
+        toast.textContent = message;
+
+        toast.classList.add("show-toast");
+        setTimeout(() => {
+          toast.classList.remove("show-toast");
+        }, 3000);
+      }
+
+      function validateFile() {
+        const input = document.querySelector('input[type="file"]');
+        const allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+
+        document
+          .querySelector("button")
+          .addEventListener("click", function (event) {
+            if (!input.files.length) {
+              event.preventDefault();
+              showToast("Please select a file before submitting!");
+            } else if (!allowedExtensions.test(input.files[0].name)) {
+              event.preventDefault();
+              showToast(
+                "Invalid file format. Please choose a valid image file (JPG, JPEG, PNG)."
+              );
+            }
+          });
+      }
+
+      function handleDragOver(event) {
+        event.preventDefault();
+        const label = document.querySelector("label");
+        label.classList.add("drag-over");
+      }
+
+      function handleDragLeave(event) {
+        const label = document.querySelector("label");
+        label.classList.remove("drag-over");
+      }
+
+      function handleDrop(event) {
+        event.preventDefault();
+        const label = document.querySelector("label");
+        label.classList.remove("drag-over");
+
+        const files = event.dataTransfer.files;
+        const input = document.querySelector('input[type="file"]');
+        input.files = files;
+
+        const fileName = files[0].name;
+        const labelSpan = document.querySelector("label span");
+        labelSpan.textContent = fileName;
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        displayFileName();
+        validateFile();
+
+        const label = document.querySelector("label");
+
+        label.addEventListener("dragover", handleDragOver);
+        label.addEventListener("dragleave", handleDragLeave);
+        label.addEventListener("drop", handleDrop);
+      });
+    </script>
+  </body>
+</html>

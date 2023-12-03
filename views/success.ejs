@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>File Upload Success</title>
+    <link rel="icon" type="image/x-icon" href="/file/<%= fileName %>" />
+    <meta
+      name="description"
+      content="File: <%= fileName %>, Size: <%= formatFileSize(fileSize) %>"
+    />
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+      * {
+        padding: 0;
+        margin: 0;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background-color: #f8f8f8;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        max-width: 80%;
+        width: 400px;
+      }
+
+      h1 {
+        color: #3498db;
+      }
+
+      p {
+        color: #555;
+      }
+
+      img {
+        max-width: 50%;
+        height: auto;
+        margin-top: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .file-link {
+        color: #3498db;
+        text-decoration: none;
+      }
+
+      .file-details {
+        margin-top: 20px;
+        text-align: left;
+      }
+
+      .file-details p {
+        margin: 5px 0;
+        color: #555;
+      }
+
+      .btn-con {
+        margin-top: 30px;
+      }
+
+      .btn {
+        font-size: 1.5rem;
+        padding: 10px 20px;
+        background-color: #3498db;
+        border: none;
+        border-radius: 5px;
+        color: #fff;
+        text-decoration: none;
+        transition: background-color 0.3s;
+      }
+
+      .btn:hover {
+        background-color: #2980b9;
+      }
+
+      @media only screen and (min-width: 768px) {
+        .container {
+          max-width: 600px;
+          width: 80%;
+          margin: auto;
+        }
+
+        .file-details {
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>File Upload Success!</h1>
+      <p>Your file has been uploaded successfully.</p>
+      <p>
+        File Link:
+        <a href="/file/<%= fileName %>" class="file-link" target="_blank"
+          ><%= host %>/file/<%= fileName %></a
+        >
+      </p>
+      <img src="/file/<%= fileName %>" alt="Uploaded File" />
+      <div class="file-details">
+        <p><strong>Name:</strong> <%= fileName %></p>
+        <p><strong>Size:</strong> <%= formatFileSize(fileSize) %></p>
+        <p><strong>Extension:</strong> <%= fileExtension %></p>
+      </div>
+      <div class="btn-con">
+        <a href="/" class="btn">Back</a>
+      </div>
+    </div>
+  </body>
+</html>
