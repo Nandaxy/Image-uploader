@@ -1,6 +1,8 @@
-# Image Uploader Node.js
+# Image Uploader Express 
 
-Projets ini adalah web server sederhana yang memungkinkan pengguna mengunggah gambar ke server menggunakan Node.js dan Express.
+<img src="https://telegra.ph/file/3aa0a99d31c1201536c8d.png" alt="ss">
+
+Web server sederhana yang memungkinkan pengguna mengunggah gambar ke server menggunakan Node.js dan Express. Dan Akan Mendapatkan Url dari gambar tersebut, Sehingga memungkinkan untuk menggunakan gambar tersebut di web anda sendiri.
 
 ## Installation
 
@@ -23,10 +25,10 @@ Projets ini adalah web server sederhana yang memungkinkan pengguna mengunggah ga
 5. Jalankan server Anda 
 
    ```bash
-   node index.js
+   npm start
 
 6. Buka browser, buka http://localhost:3000.
 
 ## Demo
 
-- https://image-uploader.nanda79.repl.co/
+- 
