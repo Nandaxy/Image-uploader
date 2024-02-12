@@ -25,7 +25,7 @@ Web server sederhana yang memungkinkan pengguna mengunggah gambar ke server meng
 5. Jalankan server Anda 
 
    ```bash
-   npm start
+   node index.js
 
 6. Buka browser, buka http://localhost:3000.
 
